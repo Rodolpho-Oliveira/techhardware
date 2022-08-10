@@ -21,13 +21,16 @@ model users_computer {
   id Int @id @default(autoincrement())
   user_ids users @relation(fields: [user_id], references: [id])
   user_id Int
+  computer_ids computers @relation(fields: [computer_id], references: [id])
+  computer_id Int
 }
 
 model computers {
   id Int @id @default(autoincrement())
+  user_computers users_computer[]
   name String
   motherboard Int
-  cpu Int
+  cpu Int?
   gpu Int?
   drive Int?
   font Int? 
