@@ -26,15 +26,14 @@ export async function validateToken(req: Request, res: Response, next: NextFunct
     if(!token){
         throw {type: "Authorization token not found", status: 401}
     }
-
-    const tokenData = JSON.stringify(jwt.verify(token, JWT))
-    const userData: { email: string } = JSON.parse(tokenData)
-    if(!userData){
-        throw {type: "Authorization error", status: 401}
+    try{
+        const tokenData = JSON.stringify(jwt.verify(token, JWT))
+        const userData: { email: string } = JSON.parse(tokenData)
+        const {id} = await checkUserRegister(userData.email)
+        res.locals.user = id
+    }catch(e){
+        throw {type: "Wrong authorization", status: 403}
     }
-
-    const {id} = await checkUserRegister(userData.email)
-    res.locals.user = id
 
     next()
 }
