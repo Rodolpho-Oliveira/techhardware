@@ -1,5 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import Joi from "joi";
+import jwt from "jsonwebtoken";
+import { checkUserRegister } from "../repositories/userRepository.js";
 
 export async function checkUserInfo(res: Response, req: Request, next: NextFunction) {
     const signUpValidation = Joi.object({
@@ -11,6 +13,27 @@ export async function checkUserInfo(res: Response, req: Request, next: NextFunct
     if(validation.error){
         return res.status(401).send("Wrong infomartion")
     }
+
+    next()
+}
+
+export async function validateToken(req: Request, res: Response, next: NextFunction) {
+    const {authorization} = req.headers
+    const JWT = process.env.JWT_TOKEN
+    const token = authorization?.replace("Bearer", "").trim()
+
+    if(!token){
+        throw {type: "Authorization token not found", status: 401}
+    }
+
+    const tokenData = JSON.stringify(jwt.verify(token, JWT))
+    const userData: { email: string } = JSON.parse(tokenData)
+    if(!userData){
+        throw {type: "Authorization error", status: 401}
+    }
+
+    const {id} = await checkUserRegister(userData.email)
+    res.locals.user = id
 
     next()
 }
