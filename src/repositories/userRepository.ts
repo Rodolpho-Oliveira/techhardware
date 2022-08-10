@@ -3,7 +3,7 @@ import { CreateUserData } from "../services/userService.js";
 
 export async function checkUserRegister(email: string) {
     return await db.users.findUnique({
-        where: {email}
+        where: {email: email}
     })
 }
 
