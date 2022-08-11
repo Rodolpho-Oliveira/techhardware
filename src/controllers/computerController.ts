@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { getAllCpuBySocket, getAllGpu, getAllMotherboards, getAllRamsByDdr } from "../repositories/computerRepository.js";
+import { getAllCpuBySocket, getAllDrives, getAllGpu, getAllMotherboards, getAllRamsByDdr } from "../repositories/computerRepository.js";
 
 export async function showAllMotherboards(req: Request, res: Response){
     const motherboards = await getAllMotherboards()
@@ -26,3 +26,10 @@ export async function showAllRam(req: Request, res: Response) {
 
     res.status(200).send(ram)
 }
+
+export async function showAllDrives(req: Request, res: Response) {
+    const drive = await getAllDrives()
+
+    res.status(200).send(drive)
+}
+

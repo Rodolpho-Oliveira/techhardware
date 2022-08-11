@@ -45,3 +45,9 @@ export async function getAllRamsByDdr(ddr: number) {
         }
     })
 }
+
+export async function getAllDrives() {
+    return await db.hardwares.findMany({
+        where:{type: "drive"}
+    })
+}
