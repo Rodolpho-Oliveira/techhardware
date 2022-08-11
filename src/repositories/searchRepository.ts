@@ -7,3 +7,7 @@ export async function getAllProducts() {
 export async function getAllProductsByType(type: string) {
     return await db.hardwares.findMany({where: {type: type}})
 }
+
+export async function getAllProductsByName(name: string) {
+    return await db.hardwares.findMany({where: {name}})
+}
