@@ -29,3 +29,19 @@ export async function getAllCpuBySocket(socket: string) {
     })
 }
 
+export async function getAllRamsByDdr(ddr: number) {
+    return await db.specs.findMany({
+        where: {ddr: ddr},
+        select:{
+            tdp: true,
+            capacity: true,
+            ddr: true,
+            frequency: true,
+            hardware:{
+                where:{
+                    type: "ram"
+                }
+            }
+        }
+    })
+}
