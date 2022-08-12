@@ -51,3 +51,21 @@ export async function getAllDrives() {
         where:{type: "drive"}
     })
 }
+
+export async function getAllFontsByTdp(tdp: number) {
+    return await db.specs.findMany({
+        where:{
+            tdp:{
+                gte: tdp
+            }
+        },
+        select:{
+            tdp: true,
+            hardware:{
+                where:{
+                    type: "font"
+                }
+            }
+        }
+    })
+}
