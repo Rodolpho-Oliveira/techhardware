@@ -1,4 +1,7 @@
+import { computers } from "@prisma/client";
 import { db } from "../app/database.js";
+
+export type CreateComputerData = Omit<computers, "id">
 
 export async function getAllMotherboards() {
     return await db.hardwares.findMany({
@@ -68,4 +71,37 @@ export async function getAllFontsByTdp(tdp: number) {
             }
         }
     })
+}
+
+export async function saveUserComputer(createComputerData: CreateComputerData, id: number) {
+    await db.computers.create({
+        data: {
+            name: createComputerData.name,
+            motherboard: createComputerData.motherboard,
+            cpu: createComputerData.cpu,
+            gpu: createComputerData.gpu,
+            drive: createComputerData.drive,
+            font: createComputerData.font,
+            ram: createComputerData.ram,
+            user_computers: {
+                create: [
+                {user_id: id}
+                ]
+            }
+        }
+    })
+}
+
+export async function getComputerName(id: number, name: string) {
+    const computerName: Array<any> = await db.computers.findMany({
+        where:{name: name},
+        select:{
+            user_computers:{
+                where:{
+                    user_id: id
+                }
+            }
+        }
+    })
+    return computerName
 }

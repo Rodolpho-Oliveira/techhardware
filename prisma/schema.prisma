@@ -29,16 +29,28 @@ model computers {
   id Int @id @default(autoincrement())
   user_computers users_computer[]
   name String
+  motherboardId hardwares @relation("motherboard", fields: [motherboard], references: [id])
   motherboard Int
+  cpu_id hardwares? @relation("cpu" ,fields: [cpu], references: [id])
   cpu Int?
+  gpu_id hardwares? @relation("gpu" ,fields: [gpu], references: [id])
   gpu Int?
+  drive_id hardwares? @relation("drive" ,fields: [drive], references: [id])
   drive Int?
+  font_id hardwares? @relation("font" ,fields: [font], references: [id])
   font Int? 
+  ram_id hardwares? @relation("ram" ,fields: [ram], references: [id])
   ram Int?
 }
 
 model hardwares {
   id Int @id @default(autoincrement())
+  motherboard_id computers[] @relation("motherboard")
+  cpu_id computers[] @relation("cpu")
+  gpu_id computers[] @relation("gpu")
+  drive_id computers[] @relation("drive")
+  font_id computers[] @relation("font")
+  ram_id computers[] @relation("ram")
   name String
   image String
   type String
