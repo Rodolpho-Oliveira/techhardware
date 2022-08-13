@@ -10,3 +10,20 @@ export async function checkUserRegister(email: string) {
 export async function RegisterNewUser(createUserData: CreateUserData) {
     return await db.users.create({data: createUserData})
 }
+
+export async function getUserComputers(id: number) {
+    const computers = await db.computers.findMany({
+        select:{
+            id: true,
+            motherboard: true,
+            motherboardId: true,
+            user_computers:{
+                where:{
+                    user_id: id
+                }
+            },
+        }
+    })
+
+    return computers
+}

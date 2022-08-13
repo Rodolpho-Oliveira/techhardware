@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { getAllCpuBySocket, getAllDrives, getAllFontsByTdp, getAllGpu, getAllMotherboards, getAllRamsByDdr, saveUserComputer } from "../repositories/computerRepository.js";
+import { getAllCpuBySocket, getAllDrives, getAllFontsByTdp, getAllGpu, getAllMotherboards, getAllRamsByDdr,  saveUserComputer } from "../repositories/computerRepository.js";
 import { checkComputerName } from "../services/computerService.js";
 
 export async function showAllMotherboards(req: Request, res: Response){

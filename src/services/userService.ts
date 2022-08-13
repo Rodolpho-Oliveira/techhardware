@@ -1,5 +1,5 @@
 import { users } from "@prisma/client";
-import { checkUserRegister, RegisterNewUser } from "../repositories/userRepository.js";
+import { checkUserRegister, getUserComputers, RegisterNewUser } from "../repositories/userRepository.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import dotenv from "dotenv"
@@ -31,4 +31,16 @@ export async function singInUser({email, password}: CreateUserData) {
 
     const token = jwt.sign({ email: check.email }, JWT)
     return token
+}
+
+export async function removeEmptyComputers(id: string) {
+    const computers = await getUserComputers(parseInt(id))
+    const userComputer = []
+    for(const computer in computers){
+        if(computers[parseInt(computer)].user_computers.length !== 0){
+            userComputer.push(computers[parseInt(computer)])
+        }
+    }
+
+    return userComputer
 }
